@@ -1040,148 +1040,141 @@ DescriptionWords = {
 ## 📦 Full Example
 
 ```lua
-local ProxyLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
-local Library  = ProxyLib.new()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
+local Library = ProxyLib.new()
 
--- Key System
-local KS = Library:CreateKeySystem({
-    Title = "ProxyHub",
+local Window = Library:CreateWindow({
+    Title = "My Script",
+    Subtitle = "example",
     Theme = "Blue",
-    Size  = Vector2.new(420, 265),
+    Size = Vector2.new(520, 380)
 })
 
-KS:CreateButton({
-    Description = "Enter",
-    Callback = function()
-        if KS:GetText() == "proxy123" then
-            KS:Destroy()
+Window:CreateSeparator({ Text = "Combat" })
 
-            -- Main Window
-            local Window = Library:CreateWindow({
-                Title    = "ProxyHub",
-                Subtitle = "v2.0",
-                Theme    = "Blue",
-                TypeUI   = "Modern",
-                ConfigPanel = {
-                    Enabled  = true,
-                    Theme    = true,
-                    Fps      = true,
-                    Ping     = true,
-                    Profile  = true,
-                    Language = true,
-                },
-            })
+local Tab = Window:CreateTab({
+    Title = "Main"
+})
 
-            Window:Notify({
-                Title    = "Welcome!",
-                Text     = "Authenticated successfully.",
-                Duration = 3,
-            })
+Tab:CreateSection({
+    Text = "Combat Settings",
+})
 
-            -- Sidebar
-            Window:CreateSeparator({ Text = "Main" })
+Tab:CreateSeparatorLine()
 
-            local Tab = Window:CreateTab({
-                Title = "Home",
-                Icon  = "rbxassetid://0",
-            })
+local Dropdown = Tab:CreateDropdown({
+    Title = "Weapon",
+    Options = { "Sword", "Bow", "Staff" },
+    Default = "Sword",
+    Callback = function(selected)
+        print("Selected weapon:", selected)
+        Window:Notify({
+            Title = "Weapon",
+            Text = "You chose: " .. selected,
+            Duration = 2
+        })
+    end
+})
 
-            Window:CreateSidebarLine()
-            Window:CreateSeparator({ Text = "Extra" })
+local Para = Tab:CreateParagraph({
+    Title       = "About",
+    Description = "This is some info text.",
+})
 
-            local Tab2 = Window:CreateTab({
-                Title = "Visuals",
-                Icon  = "rbxassetid://0",
-            })
-
-            -- Tab 1 content
-            Tab:CreateSection({ Text = "Movement" })
-
-            Tab:CreateToggle({
-                Title    = "Speed Hack",
-                Default  = false,
-                Callback = function(v)
-                    game:GetService("Players").LocalPlayer
-                        .Character.Humanoid.WalkSpeed = v and 50 or 16
-                end,
-            })
-
-            Tab:CreateSlider({
-                Title    = "Jump Power",
-                Min      = 50,
-                Max      = 500,
-                Default  = 50,
-                Callback = function(v)
-                    game:GetService("Players").LocalPlayer
-                        .Character.Humanoid.JumpPower = v
-                end,
-            })
-
-            Tab:CreateSeparatorLine()
-            Tab:CreateSection({ Text = "Misc" })
-
-            Tab:CreateDropdown({
-                Title    = "Team",
-                Options  = { "Red", "Blue", "Green" },
-                Default  = "Red",
-                Callback = function(sel)
-                    print("Team:", sel)
-                end,
-            })
-
-            Tab:CreateCheckBox({
-                Title    = "Auto Farm",
-                Default  = false,
-                Callback = function(v)
-                    print("Auto Farm:", v)
-                end,
-            })
-
-            Tab:CreateButton({
-                Title        = "Rejoin",
-                Confirmation = true,
-                Callback     = function()
-                    game:GetService("TeleportService"):Teleport(
-                        game.PlaceId,
-                        game:GetService("Players").LocalPlayer
-                    )
-                end,
-            })
-
-            Tab:CreateTextBox({
-                Title       = "Custom Message",
-                Placeholder = "Type something...",
-                MaxLength   = 80,
-                Callback    = function(text)
-                    print("Message:", text)
-                end,
-            })
-
-            Tab:CreateParagraph({
-                Title       = "About",
-                Description = "ProxyHub is running.",
-                ColoredWords = {
-                    { Text = "ProxyHub", Colors = { Color3.fromRGB(35, 85, 170), Color3.fromRGB(55, 110, 200) }, Gradient = true },
-                },
-            })
-
-            Tab:CreateDiscordInvite({
-                Title  = "ProxyLibrary",
-                Link   = "https://discord.gg/GMAFx8NxdK",
-                Button = "Join Server",
-            })
-
-        else
-            KS:Notify({
-                Title    = "Wrong Key",
-                Text     = "Try again.",
-                Duration = 3,
-            })
-        end
+local Toggle = Tab:CreateToggle({
+    Title    = "Enable Feature",
+    Default  = false,
+    Callback = function(state)
+        print("Toggle:", state)
     end,
 })
 
-KS:CreateSocialButton({ Type = "Discord", Link = "https://discord.gg/GMAFx8NxdK", Order = 1 })
-KS:CreateSocialButton({ Type = "Youtube", Link = "https://youtube.com/@example",   Order = 2 })
-KS:CreateSocialButton({ Type = "Website", Link = "https://example.com",            Order = 3 })
+local Toggle = Tab:CreateToggle({
+    Title       = "Enable Feature",
+    Description = "Turns the feature on or off.",
+    Icon        = "rbxassetid://82431110954723",
+    Default     = false,
+    SaveId      = "my_toggle",
+    Callback    = function(state)
+        print("Toggle:", state)
+    end,
+})
+
+local Check = Tab:CreateCheckBox({
+    Title    = "Accept Terms",
+    Default  = false,
+    Callback = function(state)
+        print("Checked:", state)
+    end,
+})
+
+local Check = Tab:CreateCheckBox({
+    Title        = "Enable PvP",
+    Description  = "Activates PvP mode.",
+    Default      = false,
+    Confirmation = true,
+    SaveId       = "my_checkbox",
+    Callback     = function(state)
+        print("CheckBox:", state)
+    end,
+})
+
+local Slider = Tab:CreateSlider({
+    Title    = "Speed",
+    Min      = 0,
+    Max      = 100,
+    Default  = 16,
+    Callback = function(value)
+        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = value
+    end,
+})
+
+local Button = Tab:CreateButton({
+    Title    = "Teleport",
+    Callback = function()
+        print("Clicked!")
+    end,
+})
+
+local Button = Tab:CreateButton({
+    Title        = "Delete Data",
+    Description  = "This action cannot be undone.",
+    Icon         = "rbxassetid://88732835297181",
+    Confirmation = true,
+    Callback     = function()
+        print("Confirmed and executed.")
+    end,
+})
+
+local TextBox = Tab:CreateTextBox({
+    Title    = "Username",
+    Callback = function(text)
+        print("Submitted:", text)
+    end,
+})
+
+local TextBox = Tab:CreateTextBox({
+    Title       = "Username",
+    Placeholder = "Enter your username...",
+    Default     = "",
+    MaxLength   = 50,
+    Callback    = function(text)
+        print("Text:", text)
+    end,
+})
+
+local Card = Tab:CreateDiscordInvite({
+    Title       = "Our Community",
+    Description = "Join us for updates and support!",
+    Icon        = "rbxassetid://0",
+    Banner      = "rbxassetid://0",
+    Link        = "https://discord.gg/GMAFx8NxdK",
+    Button      = "Join Server",
+})
+
+Window:Notify({
+    Title = "Ready",
+    Text = "UI Complete",
+    Duration = 3
+})
 ```
