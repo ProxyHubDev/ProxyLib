@@ -1,0 +1,15 @@
+local scripts = {
+	["114234929420007"] = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/Scripts/BloxStrike.exe"))()
+	end,
+	["92416421522960"] = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/Scripts/SlimeRNG.exe"))()
+	end,
+}
+
+local id = tostring(game.PlaceId)
+local loader = scripts[id]
+
+if loader then
+	loader()
+end
