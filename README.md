@@ -1040,7 +1040,7 @@ DescriptionWords = {
 ## 📦 Full Example
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
+local ProxyLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
 local Library = ProxyLib.new()
 
 local Window = Library:CreateWindow({
