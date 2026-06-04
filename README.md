@@ -1090,7 +1090,7 @@ Each column scrolls independently — the mouse wheel only scrolls whichever col
 ### Hub with Key System
 
 ```lua
-local ProxyLib = loadstring(game:HttpGet("YOUR_LIB_URL"))()
+local ProxyLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
 local Lib = ProxyLib.new()
 
 local KS = Lib:CreateKeySystem({
