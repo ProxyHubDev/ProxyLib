@@ -52,7 +52,7 @@
 ## 1. Getting Started
 
 ```lua
-local ProxyLib = loadstring(game:HttpGet("YOUR_LIB_URL"))()
+local ProxyLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
 local Lib = ProxyLib.new()
 ```
 
