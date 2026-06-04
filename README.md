@@ -1,1180 +1,1230 @@
-# 📚 ProxyLib — Complete Documentation
+# ProxyLib
 
-## 🔗 ProxyLibrary
-- **Discord:** https://discord.gg/GMAFx8NxdK
-
-> **Made By:** Zerozxk (@fixedbugs) & Araujo (@araujozwx)
+> A modern Roblox UI library with theme support, acrylic effects, multi-language translation, search, notifications, a key system, and more.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [Initialization](#-initialization)
-- [CreateWindow](#-createwindow)
-  - [Window Options](#window-options)
-  - [ConfigPanel](#configpanel)
-  - [TitleConfig](#titleconfig)
-  - [FloatButton](#floatbutton)
-  - [Acrylic](#acrylic)
-  - [BackgroundImage](#backgroundimage)
-- [Notify](#-notify)
-- [CreateTab](#-createtab)
-- [Tab Elements](#-tab-elements)
-  - [CreateSection](#createsection)
-  - [CreateSeparatorLine](#createseparatorline)
-  - [CreateParagraph](#createparagraph)
-  - [CreateToggle](#createtoggle)
-  - [CreateCheckBox](#createcheckbox)
-  - [CreateSlider](#createslider)
-  - [CreateButton](#createbutton)
-  - [CreateTextBox](#createtextbox)
-  - [CreateDropdown](#createdropdown)
-  - [CreateValueDropdown](#createvaluedropdown)
-  - [CreateDiscordInvite](#creatediscordinvite)
-- [Sidebar Elements](#-sidebar-elements)
-  - [CreateSeparator](#createseparator)
-  - [CreateSidebarLine](#createsidebarline)
-- [CreateKeySystem](#-createkeysystem)
-  - [KeySystem CreateButton](#keysystem-createbutton)
-  - [KeySystem CreateSocialButton](#keysystem-createsocialbutton)
-  - [KeySystem Notify](#keysystem-notify)
-- [Window Methods](#-window-methods)
-- [Themes](#-themes)
-- [Languages](#-languages)
-- [RichText & Colored Words](#-richtext--colored-words)
-- [Full Example](#-full-example)
+1. [Getting Started](#1-getting-started)
+2. [CreateWindow](#2-createwindow)
+   - [Window Options](#21-window-options)
+   - [TitleConfig](#22-titleconfig)
+   - [ConfigPanel](#23-configpanel)
+   - [FloatButton](#24-floatbutton)
+   - [Acrylic](#25-acrylic)
+   - [BackgroundImage](#26-backgroundimage)
+   - [Window Methods](#27-window-methods)
+3. [CreateTab](#3-createtab)
+   - [Tab Methods](#31-tab-methods)
+4. [Content Components](#4-content-components)
+   - [CreateSection](#41-createsection)
+   - [CreateParagraph](#42-createparagraph)
+   - [CreateToggle](#43-createtoggle)
+   - [CreateSlider](#44-createslider)
+   - [CreateButton](#45-createbutton)
+   - [CreateCheckBox](#46-createcheckbox)
+   - [CreateDropdown](#47-createdropdown)
+   - [CreateValueDropdown](#48-createvaluedropdown)
+   - [CreateTextBox](#49-createtextbox)
+   - [CreateKeyBind](#410-createkeybind)
+   - [CreateColorPicker](#411-createcolorpicker)
+   - [CreateDiscordInvite](#412-creatediscordinvite)
+   - [CreateSeparatorLine](#413-createseparatorline)
+5. [Sidebar Components](#5-sidebar-components)
+   - [CreateSeparator](#51-createseparator)
+   - [CreateSidebarLine](#52-createsidebarline)
+6. [Notifications](#6-notifications)
+7. [CreateKeySystem](#7-createkeysystem)
+   - [KeySystem Options](#71-keysystem-options)
+   - [KeySystem Methods](#72-keysystem-methods)
+   - [CreateButton (KeySystem)](#73-createbutton-keysystem)
+   - [CreateSocialButton](#74-createsocialbutton)
+8. [Themes](#8-themes)
+9. [Languages](#9-languages)
+10. [AutoSave / AutoLoad](#10-autosave--autoload)
+11. [ColoredWords / RichText](#11-coloredwords--richtext)
+12. [Double Tab Layout](#12-double-tab-layout)
+13. [Full Examples](#13-full-examples)
 
 ---
 
-## 🚀 Initialization
+## 1. Getting Started
 
 ```lua
-local ProxyLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
-
-local Library = ProxyLib.new()
+local ProxyLib = loadstring(game:HttpGet("YOUR_LIB_URL"))()
+local Lib = ProxyLib.new()
 ```
 
+`ProxyLib.new()` creates a new library instance. Call `Lib:Destroy()` to destroy all windows and disconnect every connection when you're done.
+
 ---
 
-## 🪟 CreateWindow
+## 2. CreateWindow
 
 ```lua
-local Window = Library:CreateWindow({
+local Window = Lib:CreateWindow(config)
+```
+
+### 2.1 Window Options
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"ProxyLib"` | Main window title |
+| `Subtitle` | string | `""` | Subtitle shown below the title |
+| `Icon` | string | `""` | Asset ID for the header icon (e.g. `"rbxassetid://..."`) |
+| `Size` | Vector2 | `Vector2.new(520, 380)` | Initial window size |
+| `MinSize` | Vector2 | `Vector2.new(380, 250)` | Minimum size when resizing |
+| `MaxSize` | Vector2 | `Vector2.new(900, 650)` | Maximum size when resizing |
+| `TypeUI` | string | `"Modern"` | UI style: `"Modern"` or `"Classic"` |
+| `Theme` | string \| Color3 | `"Blue"` | Color theme (see [Themes](#8-themes)) |
+| `Language` | string | `"English"` | Default language (see [Languages](#9-languages)) |
+| `DefaultLanguage` | string | `nil` | Alias for `Language` |
+| `Search` | boolean | `true` | Shows a search bar in the sidebar |
+| `AutoSave` | boolean | `true` | Automatically saves component values to a file |
+| `AutoLoad` | boolean | `true` | Restores saved values on startup |
+| `DefaultFps` | boolean | `false` | Starts with the FPS overlay enabled |
+| `DefaultPing` | boolean | `false` | Starts with the Ping overlay enabled |
+| `DefaultProfile` | boolean | `false` | Starts with the player profile card visible |
+| `TitleConfig` | table | `{}` | Title word appearance config |
+| `ConfigPanel` | table | `{}` | Settings panel config |
+| `FloatButton` | table | `nil` | Floating button to show/hide the window |
+| `Acrylic` | table | `{}` | Acrylic effect config |
+| `BackgroundImage` | table | `{}` | Background image or video |
+
+```lua
+local Window = Lib:CreateWindow({
     Title    = "My Hub",
     Subtitle = "v1.0",
-    Icon     = "rbxassetid://0",
-    Size     = Vector2.new(520, 380),
-    MinSize  = Vector2.new(380, 250),
-    MaxSize  = Vector2.new(900, 650),
+    Icon     = "rbxassetid://XXXXXXX",
+    Size     = Vector2.new(560, 400),
+    Theme    = "Purple",
     TypeUI   = "Modern",
-    Theme    = "Blue",
     Language = "English",
-    AutoSave = true,
-    AutoLoad = true,
-
-    Acrylic = {
-        Enabled = true,
-        Opacity = 0.55,
-    },
-
-    BackgroundImage = {
-        Id     = "rbxassetid://000000000",
-        Active = false,
-    },
-
-    TitleConfig = {
-        Gradient = true,
-        Colors   = { Color3.fromRGB(100, 180, 255), Color3.fromRGB(50, 100, 200) },
-        Words    = {
-            { Text = "My",  Colors = { Color3.fromRGB(255, 255, 255) } },
-            { Text = "Hub", Colors = { Color3.fromRGB(35, 85, 170), Color3.fromRGB(55, 110, 200) } },
-        },
-    },
-
-    FloatButton = {
-        Shape = "Circle",
-        Color = "Black",
-        Size  = 50,
-        Icon  = "rbxassetid://0",
-    },
-
-    ConfigPanel = {
-        Enabled         = true,
-        Acrylic         = true,
-        Theme           = true,
-        Fps             = true,
-        Ping            = true,
-        Profile         = true,
-        HideNotify      = true,
-        Language        = true,
-        BackgroundImage = true,
-    },
 })
 ```
 
-### Window Options
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"ProxyLib"` | Window title text |
-| `Subtitle` | `string` | `""` | Subtitle shown below the title |
-| `Icon` | `string` | `""` | Asset ID for the window icon |
-| `Size` | `Vector2` | `Vector2.new(520, 380)` | Initial window size |
-| `MinSize` | `Vector2` | `Vector2.new(380, 250)` | Minimum resize limit |
-| `MaxSize` | `Vector2` | `Vector2.new(900, 650)` | Maximum resize limit |
-| `TypeUI` | `string` | `"Modern"` | UI style: `"Modern"` or `"Classic"` |
-| `Theme` | `string \| Color3` | `"Blue"` | Accent theme name or custom Color3 |
-| `Language` | `string` | `"English"` | Default UI language |
-| `AutoSave` | `boolean` | `true` | Auto-save config to file |
-| `AutoLoad` | `boolean` | `true` | Auto-load config from file |
-
-### ConfigPanel
-
-Controls which settings appear in the gear (⚙) panel.
-
-| Option | Type | Description |
-|---|---|---|
-| `Enabled` | `boolean` | Show the config button at all |
-| `Acrylic` | `boolean` | Show the acrylic/opacity toggle |
-| `Theme` | `boolean` | Show the theme picker |
-| `Fps` | `boolean` | Show the FPS overlay toggle |
-| `Ping` | `boolean` | Show the ping overlay toggle |
-| `Profile` | `boolean` | Show the player profile card toggle |
-| `HideNotify` | `boolean` | Show a notification when the window is hidden |
-| `Language` | `boolean` | Show the language picker |
-| `BackgroundImage` | `boolean` | Show the background image toggle and ID input |
-
-### TitleConfig
-
-Controls how the title text is styled.
-
-| Option | Type | Description |
-|---|---|---|
-| `Gradient` | `boolean` | Enable gradient coloring on special words |
-| `Colors` | `{Color3}` | Global gradient colors applied to all special words |
-| `Words` | `{table}` | Per-word color config. Each entry: `{ Text = "Word", Colors = { Color3 } }` |
-
-### FloatButton
-
-A draggable floating button that shows/hides the window (also works on mobile).
-
-| Option | Type | Description |
-|---|---|---|
-| `Shape` | `string` | `"Circle"` or `"Square"` |
-| `Color` | `string` | `"Black"`, `"White"`, or `"Translucent"` |
-| `Size` | `number` | Button size in pixels (minimum 36) |
-| `Icon` | `string` | Asset ID for the button icon image |
-
-### Acrylic
-
-| Option | Type | Description |
-|---|---|---|
-| `Enabled` | `boolean` | Start with acrylic/blur transparency active |
-| `Opacity` | `number` | Opacity from `0.0` (fully transparent) to `1.0` (solid) |
-
-### BackgroundImage
-
-| Option | Type | Description |
-|---|---|---|
-| `Id` | `string` | Asset ID (`"rbxassetid://..."`) or `"Default"` for the built-in image |
-| `Active` | `boolean` | Whether the background image starts enabled |
-
 ---
 
-## 🔔 Notify
+### 2.2 TitleConfig
 
-Displays a toast notification on screen.
+Controls how highlighted words in the title are rendered. Highlighted words can use gradient colors or the theme's accent color.
 
 ```lua
--- Basic
-Window:Notify({
-    Title    = "Hello!",
-    Text     = "This is a notification.",
-    Icon     = "rbxassetid://124914698428562",
-    Duration = 4,
-})
-
--- With colored words in the body
-Window:Notify({
-    Title    = "Update",
-    Text     = "Version 2.0 is now available!",
-    Duration = 5,
-    ColoredWords = {
-        { Text = "2.0", Colors = { Color3.fromRGB(100, 220, 100) } },
+TitleConfig = {
+    Gradient = true,
+    Colors = {
+        Color3.fromRGB(100, 200, 255),
+        Color3.fromRGB(50,  100, 255),
     },
-})
-
--- With gradient colored words in the title
-Window:Notify({
-    Title = "Rainbow",
-    TitleColoredWords = {
+    Words = {
+        "Hub",
         {
-            Text     = "Rainbow",
-            Colors   = { Color3.fromRGB(255, 80, 80), Color3.fromRGB(80, 80, 255) },
-            Gradient = true,
+            Text   = "Premium",
+            Colors = {
+                Color3.fromRGB(255, 200, 50),
+                Color3.fromRGB(255, 120, 0),
+            },
         },
     },
-    Text     = "Gradient title example.",
-    Duration = 4,
-})
-
--- Using word builders (TitleWords / TextWords)
-Window:Notify({
-    TitleWords = {
-        "Hello ",
-        { Text = "World", Colors = { Color3.fromRGB(255, 200, 0) } },
-    },
-    TextWords = {
-        "Status: ",
-        { Text = "Online", Colors = { Color3.fromRGB(80, 220, 80) } },
-    },
-    Duration = 5,
-})
+}
 ```
 
-| Option | Type | Description |
-|---|---|---|
-| `Title` | `string` | Notification title |
-| `Text` / `Description` | `string` | Body text |
-| `Icon` | `string` | Asset ID for the icon |
-| `Duration` | `number` | How long (seconds) before it fades out |
-| `RichText` | `boolean` | Enable RichText on the body text |
-| `ColoredWords` | `{table}` | Color specific words in the body text |
-| `TitleColoredWords` | `{table}` | Color specific words in the title |
-| `TitleWords` | `{table}` | Full word-builder for the title |
-| `TextWords` | `{table}` | Full word-builder for the body text |
+If `Gradient = false`, highlighted words use the theme's solid `Accent` color instead. Any word not listed in `Words` is rendered as normal text. Per-word `Colors` take priority over the global `Colors` array.
 
 ---
 
-## 📂 CreateTab
+### 2.3 ConfigPanel
+
+A slide-out panel accessible via the ⚙ button in the header. Set each property to `true` to enable that section.
+
+```lua
+ConfigPanel = {
+    Enabled         = true,  -- shows the ⚙ button and enables the panel
+    Acrylic         = true,  -- opacity slider (Modern only)
+    Theme           = true,  -- theme picker (Modern only)
+    Fps             = true,  -- FPS overlay toggle
+    Ping            = true,  -- Ping overlay toggle
+    Profile         = true,  -- player profile card toggle
+    HideNotify      = true,  -- shows a notification when the window is hidden
+    Language        = true,  -- language selector
+    BackgroundImage = true,  -- background image controls (Modern only)
+}
+```
+
+---
+
+### 2.4 FloatButton
+
+A draggable floating button that shows or hides the window. Useful on mobile or whenever you want a compact toggle.
+
+```lua
+FloatButton = {
+    Shape = "Circle",           -- "Circle" or any other value (rounded square)
+    Color = "Black",            -- "Black", "White", or "Translucent"
+    Size  = 50,                 -- size in pixels (minimum 36)
+    Icon  = "rbxassetid://...", -- optional image displayed on the button
+}
+```
+
+A quick tap (without dragging) toggles the window's visibility.
+
+---
+
+### 2.5 Acrylic
+
+Controls the background blur/transparency effect.
+
+```lua
+Acrylic = {
+    Enabled = true,   -- enables the effect on open
+    Opacity = 0.55,   -- 0 = fully transparent, 1 = fully opaque
+}
+```
+
+Users can adjust the opacity live through the ConfigPanel.
+
+---
+
+### 2.6 BackgroundImage
+
+Sets a background image or video for the window.
+
+```lua
+BackgroundImage = {
+    Id     = "rbxassetid://XXXXXXX",  -- asset ID (image or video); use "Default" for the library default, or just the numeric ID
+    Active = true,                     -- whether it's active on startup
+}
+```
+
+Users can change the asset ID and toggle it on/off through the ConfigPanel when `BackgroundImage = true` is set there.
+
+---
+
+### 2.7 Window Methods
+
+```lua
+Window:GetContentFrame()  --> Frame           -- returns the tab content frame
+Window:GetMainFrame()     --> Frame           -- returns the main window frame
+Window:GetConfigPanel()   --> ScrollingFrame  -- returns the settings panel
+Window:Notify(config)                         -- sends a notification
+Window:Destroy()                              -- destroys the window completely
+```
+
+---
+
+## 3. CreateTab
+
+```lua
+local Tab = Window:CreateTab(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Tab"` | Tab name shown in the sidebar |
+| `Subtitle` | string | `""` | Optional subtitle below the name |
+| `Icon` | string | `""` | Asset ID for the tab icon |
+| `Double` | boolean | `false` | Two-column layout (see [Double Tab Layout](#12-double-tab-layout)) |
 
 ```lua
 local Tab = Window:CreateTab({
     Title    = "Main",
-    Subtitle = "General",
-    Icon     = "rbxassetid://0",
+    Subtitle = "Home",
+    Icon     = "rbxassetid://XXXXXXX",
 })
 ```
 
-| Option | Type | Description |
-|---|---|---|
-| `Title` | `string` | Tab label |
-| `Subtitle` | `string` | Small subtitle below the label |
-| `Icon` | `string` | Asset ID for the tab icon |
-
-**Methods:**
+### 3.1 Tab Methods
 
 ```lua
-Tab:Select()    -- Programmatically select this tab
-Tab:GetPage()   -- Returns the internal ScrollingFrame page
+Tab:GetPage()  --> ScrollingFrame  -- returns the tab's page frame
+Tab:Select()                       -- selects this tab programmatically
 ```
 
 ---
 
-## 🧩 Tab Elements
+## 4. Content Components
 
-### CreateSection
-
-A visual section header to group elements.
-
-```lua
--- Text only
-Tab:CreateSection({
-    Text = "Combat Settings",
-})
-
--- With an icon
-Tab:CreateSection({
-    Text = "Combat Settings",
-    Icon = "rbxassetid://0",
-})
-```
-
-| Option | Type | Description |
-|---|---|---|
-| `Text` | `string` | Section label |
-| `Icon` | `string` | Optional icon. When set, replaces the accent bar with an image |
+All content components are created inside a tab. Every component accepts a `Side` property (`1` or `2`) when the tab uses `Double = true`.
 
 ---
 
-### CreateSeparatorLine
+### 4.1 CreateSection
 
-A thin horizontal line to visually divide content inside a tab page.
+A visual header that groups components within a tab.
 
 ```lua
-Tab:CreateSeparatorLine()
+Tab:CreateSection(config)
 ```
 
-No configuration options.
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Text` | string | `""` | Section label |
+| `Icon` | string | `""` | Optional icon to the left of the text |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+```lua
+Tab:CreateSection({ Text = "Combat", Icon = "rbxassetid://..." })
+```
 
 ---
 
-### CreateParagraph
+### 4.2 CreateParagraph
 
-An info block with a title and a description body.
+A text block with a title and a body description.
 
 ```lua
--- Basic
-local Para = Tab:CreateParagraph({
-    Title       = "About",
-    Description = "This is some info text.",
-})
-
--- With icon
-local Para = Tab:CreateParagraph({
-    Title       = "Info",
-    Icon        = "rbxassetid://0",
-    Description = "Text here.",
-})
-
--- Colored words in description
-local Para = Tab:CreateParagraph({
-    Title       = "Status",
-    Description = "The script is running fine.",
-    ColoredWords = {
-        { Text = "running", Colors = { Color3.fromRGB(80, 220, 80) } },
-    },
-})
-
--- Gradient colored words in description
-local Para = Tab:CreateParagraph({
-    Title       = "Gradient",
-    Description = "Hello World!",
-    ColoredWords = {
-        {
-            Text     = "Hello World!",
-            Colors   = { Color3.fromRGB(255, 100, 100), Color3.fromRGB(100, 100, 255) },
-            Gradient = true,
-        },
-    },
-})
-
--- Colored title
-local Para = Tab:CreateParagraph({
-    Title = "Warning",
-    TitleColoredWords = {
-        { Text = "Warning", Colors = { Color3.fromRGB(255, 180, 0) } },
-    },
-    Description = "This is a warning message.",
-})
-
--- Word builder for description
-local Para = Tab:CreateParagraph({
-    Title = "Info",
-    DescriptionWords = {
-        "Status: ",
-        { Text = "Active", Colors = { Color3.fromRGB(80, 220, 80) } },
-        " — All systems nominal.",
-    },
-})
+local Para = Tab:CreateParagraph(config)
 ```
 
-| Option | Type | Description |
-|---|---|---|
-| `Title` | `string` | Paragraph heading |
-| `Description` | `string` | Body text |
-| `Icon` | `string` | Optional icon asset ID |
-| `ColoredWords` | `{table}` | Color/gradient specific words in the description |
-| `TitleColoredWords` | `{table}` | Color/gradient specific words in the title |
-| `DescriptionWords` | `{table}` | Full word-builder for the description |
-
-**Methods:**
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Info"` | Paragraph title |
+| `Description` | string | `""` | Body text |
+| `Icon` | string | `""` | Icon shown to the left (horizontal layout) |
+| `ColoredWords` | table | `nil` | Colored words in the description (see [ColoredWords](#11-coloredwords--richtext)) |
+| `TitleColoredWords` | table | `nil` | Colored words in the title |
+| `DescriptionWords` | table | `nil` | Advanced rich-text format for the description |
+| `Side` | number | `1` | Column in a double-layout tab |
 
 ```lua
 Para:SetTitle("New Title")
-Para:SetDescription("New description text.")
-Para:SetDescriptionWords({
-    "Status: ",
-    { Text = "OK", Colors = { Color3.fromRGB(0, 255, 0) } },
-})
-Para:GetDescriptionLabel()  -- Returns the TextLabel instance
-Para:GetFrame()
+Para:SetDescription("New description", wordColors)
+Para:SetDescriptionWords(wordColors)
+Para:GetDescriptionLabel()  --> TextLabel
+Para:GetFrame()             --> Frame
 ```
 
 ---
 
-### CreateToggle
+### 4.3 CreateToggle
 
 An on/off switch.
 
 ```lua
--- Basic
-local Toggle = Tab:CreateToggle({
-    Title    = "Enable Feature",
-    Default  = false,
-    Callback = function(state)
-        print("Toggle:", state)
-    end,
-})
-
--- With description and icon
-local Toggle = Tab:CreateToggle({
-    Title       = "Enable Feature",
-    Description = "Turns the feature on or off.",
-    Icon        = "rbxassetid://0",
-    Default     = false,
-    SaveId      = "my_toggle",
-    Callback    = function(state)
-        print("Toggle:", state)
-    end,
-})
+local Toggle = Tab:CreateToggle(config)
 ```
 
-| Option | Type | Default | Description |
+| Property | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Toggle"` | Label text |
-| `Description` | `string` | `""` | Optional subtitle |
-| `Icon` | `string` | `""` | Optional icon asset ID |
-| `Default` | `boolean` | `false` | Initial state |
-| `SaveId` | `string` | auto-generated | Key used for auto-save/load |
-| `Callback` | `function(bool)` | — | Called when state changes |
-
-**Methods:**
+| `Title` | string | `"Toggle"` | Label |
+| `Description` | string | `""` | Description below the title |
+| `Icon` | string | `""` | Icon to the left |
+| `Default` | boolean | `false` | Initial state |
+| `Callback` | function | `nil` | `function(value: boolean)` called on change |
+| `SaveId` | string | auto | Unique ID for AutoSave |
+| `Side` | number | `1` | Column in a double-layout tab |
 
 ```lua
 Toggle:Set(true)
-Toggle:Get()               -- Returns current boolean
-Toggle:SetTitle("New Label")
-Toggle:SetDescription("New description.")
-Toggle:GetFrame()
+Toggle:Get()              --> boolean
+Toggle:GetFrame()         --> Frame
+Toggle:SetTitle("Label")
+Toggle:SetDescription("Desc")
 ```
 
----
-
-### CreateCheckBox
-
-A checkbox with a check mark animation. Functionally identical to Toggle but with a box visual.
-
 ```lua
--- Basic
-local Check = Tab:CreateCheckBox({
-    Title    = "Accept Terms",
+local AutoAim = Tab:CreateToggle({
+    Title    = "Auto Aim",
     Default  = false,
-    Callback = function(state)
-        print("Checked:", state)
+    Callback = function(val)
+        print("Auto Aim:", val)
     end,
 })
-
--- With description and confirmation dialog
-local Check = Tab:CreateCheckBox({
-    Title        = "Enable PvP",
-    Description  = "Activates PvP mode.",
-    Default      = false,
-    Confirmation = true,
-    SaveId       = "my_checkbox",
-    Callback     = function(state)
-        print("CheckBox:", state)
-    end,
-})
-```
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"CheckBox"` | Label text |
-| `Description` | `string` | `""` | Optional subtitle |
-| `Default` | `boolean` | `false` | Initial checked state |
-| `Confirmation` | `boolean` | `false` | Show a confirm dialog before checking |
-| `SaveId` | `string` | auto-generated | Key used for auto-save/load |
-| `Callback` | `function(bool)` | — | Called when state changes |
-
-**Methods:**
-
-```lua
-Check:Set(true)
-Check:Get()
-Check:SetTitle("New Label")
-Check:SetDescription("New description.")
-Check:GetFrame()
 ```
 
 ---
 
-### CreateSlider
+### 4.4 CreateSlider
 
-A draggable slider with a numeric input box.
+A numerical slider. Users can also click the value label and type a number directly.
 
 ```lua
--- Basic
-local Slider = Tab:CreateSlider({
-    Title    = "Speed",
-    Min      = 0,
-    Max      = 100,
-    Default  = 16,
-    Callback = function(value)
-        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = value
-    end,
-})
+local Slider = Tab:CreateSlider(config)
 ```
 
-| Option | Type | Default | Description |
+| Property | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Slider"` | Label text |
-| `Min` | `number` | `0` | Minimum value |
-| `Max` | `number` | `100` | Maximum value |
-| `Default` | `number` | `Min` | Initial value |
-| `Callback` | `function(number)` | — | Called on value change |
-
-**Methods:**
+| `Title` | string | `"Slider"` | Label |
+| `Min` | number | `0` | Minimum value |
+| `Max` | number | `100` | Maximum value |
+| `Default` | number | `Min` | Initial value |
+| `Callback` | function | `nil` | `function(value: number)` |
+| `Side` | number | `1` | Column in a double-layout tab |
 
 ```lua
-Slider:Set(75)
-Slider:Get()       -- Returns current number
-Slider:GetFrame()
+Slider:Set(50)
+Slider:Get()      --> number
+Slider:GetFrame() --> Frame
+```
+
+```lua
+local FovSlider = Tab:CreateSlider({
+    Title    = "Field of View",
+    Min      = 30,
+    Max      = 120,
+    Default  = 70,
+    Callback = function(val)
+        workspace.Camera.FieldOfView = val
+    end,
+})
 ```
 
 ---
 
-### CreateButton
+### 4.5 CreateButton
 
-A clickable button with an optional confirmation dialog.
+A clickable button with an optional title, description, and icon.
 
 ```lua
--- Basic
-local Button = Tab:CreateButton({
-    Title    = "Teleport",
-    Callback = function()
-        print("Clicked!")
-    end,
-})
+local Btn = Tab:CreateButton(config)
+```
 
--- With description, custom icon and confirmation
-local Button = Tab:CreateButton({
-    Title        = "Delete Data",
-    Description  = "This action cannot be undone.",
-    Icon         = "rbxassetid://88732835297181",
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Button"` | Button text |
+| `Description` | string | `""` | Description below the title |
+| `Icon` | string | `""` | Icon to the left |
+| `Callback` | function | `nil` | `function()` called on click |
+| `Confirmation` | boolean | `false` | Shows a confirmation dialog before executing |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+```lua
+Btn:GetFrame()
+Btn:SetTitle("New Text")
+```
+
+```lua
+Tab:CreateButton({
+    Title        = "Teleport to Lobby",
+    Icon         = "rbxassetid://...",
     Confirmation = true,
     Callback     = function()
-        print("Confirmed and executed.")
+        -- your code here
     end,
 })
-```
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Button"` | Label text |
-| `Description` | `string` | `""` | Optional description below the title (supports RichText) |
-| `Icon` | `string` | arrow icon | Asset ID for the right-side icon |
-| `Confirmation` | `boolean` | `false` | Show a confirm dialog before firing the callback |
-| `Callback` | `function()` | — | Called on click |
-
-**Methods:**
-
-```lua
-Button:SetTitle("New Label")
-Button:GetFrame()
 ```
 
 ---
 
-### CreateTextBox
+### 4.6 CreateCheckBox
 
-A single-line text input field.
+A checkbox with an animated checkmark.
 
 ```lua
--- Basic
-local TextBox = Tab:CreateTextBox({
-    Title    = "Username",
-    Callback = function(text)
-        print("Submitted:", text)
-    end,
-})
-
--- Full options
-local TextBox = Tab:CreateTextBox({
-    Title       = "Username",
-    Placeholder = "Enter your username...",
-    Default     = "",
-    MaxLength   = 50,
-    Callback    = function(text)
-        print("Text:", text)
-    end,
-})
+local CB = Tab:CreateCheckBox(config)
 ```
 
-| Option | Type | Default | Description |
+| Property | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Text"` | Label above the input |
-| `Placeholder` | `string` | `"Type here..."` | Placeholder text |
-| `Default` | `string` | `""` | Initial text value |
-| `MaxLength` | `number` | `100` | Maximum character count |
-| `Callback` | `function(string)` | — | Called when the input loses focus |
-
-**Methods:**
+| `Title` | string | `"CheckBox"` | Label |
+| `Description` | string | `""` | Description |
+| `Default` | boolean | `false` | Initial state |
+| `Confirmation` | boolean | `false` | Confirmation dialog on check |
+| `Callback` | function | `nil` | `function(value: boolean)` |
+| `SaveId` | string | auto | Unique ID for AutoSave |
+| `Side` | number | `1` | Column in a double-layout tab |
 
 ```lua
-TextBox:Get()
-TextBox:Set("hello")          -- Fires callback
-TextBox:SetTitle("Label")
-TextBox:SetPlaceholder("New placeholder...")
-TextBox:GetFrame()
+CB:Set(true)
+CB:Get()              --> boolean
+CB:GetFrame()
+CB:SetTitle("Label")
+CB:SetDescription("Desc")
 ```
 
 ---
 
-### CreateDropdown
+### 4.7 CreateDropdown
 
-A dropdown list supporting single or multi-selection, section headers, descriptions per option, and auto-reload.
+A dropdown menu with built-in search, optional multi-select, section dividers, per-option icons, per-option descriptions, and dynamic reloading.
 
 ```lua
--- Single selection
-local Dropdown = Tab:CreateDropdown({
-    Title    = "Weapon",
-    Options  = { "Sword", "Bow", "Staff" },
-    Default  = "Sword",
-    Callback = function(selected)
-        print("Selected:", selected)
-    end,
-})
+local DD = Tab:CreateDropdown(config)
+```
 
--- Multi selection
-local Dropdown = Tab:CreateDropdown({
-    Title    = "Modes",
-    Options  = { "PvP", "PvE", "Farm" },
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Dropdown"` | Label shown in the header |
+| `Options` | table | `{}` | List of options (see formats below) |
+| `Multiple` | boolean | `false` | Allows selecting multiple options at once |
+| `Default` | any | `nil` | Default selection — a string, or a table if `Multiple = true` |
+| `Icon` | string | `""` | Icon in the dropdown header (shown to the left of the title, tinted with the theme's `Accent` color) |
+| `Callback` | function | `nil` | `function(value: string)` or `function(values: table)` when `Multiple = true` |
+| `AutoReload` | function | `nil` | `function() return options` — called each time the menu opens to rebuild the list |
+| `SaveId` | string | auto | Unique ID for AutoSave |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+#### Header Icon
+
+The root-level `Icon` field places an icon inside the closed dropdown header, to the left of the title. The title and current-selection label shift automatically to make room.
+
+```lua
+local DD = Tab:CreateDropdown({
+    Title    = "Class",
+    Icon     = "rbxassetid://XXXXXXX",
+    Options  = { "Warrior", "Mage", "Archer" },
+    Callback = function(val) end,
+})
+```
+
+#### Per-Option Icons
+
+Each option in table format accepts its own `Icon` field, shown inside the open menu to the left of the option text. The icon color reflects selection state:
+
+- **Selected:** theme `AccentBright`
+- **Unselected:** theme `TextSubtitle`
+
+```lua
+Options = {
+    { Value = "Warrior", Icon = "rbxassetid://111111" },
+    { Value = "Mage",    Icon = "rbxassetid://222222" },
+}
+```
+
+#### Option Formats
+
+Each entry in the `Options` table can be one of the following:
+
+| Format | Fields | Description |
+|---|---|---|
+| `"string"` | — | Simple option; the string is both the value and the label |
+| `{ Value, Icon }` | `Value` (string), `Icon` (asset ID) | Option with a per-item icon |
+| `{ Value, Description }` | `Value` (string), `Description` (string) | Option with a description line (item height becomes 50px) |
+| `{ Value, Icon, Description }` | all three | Option with both an icon and a description |
+| `{ Section = true, Text }` | `Text` (string) | Visual section divider — not selectable, displayed in uppercase |
+
+```lua
+Options = {
+    "Option A",
+
+    { Value = "Sword",  Icon = "rbxassetid://111111" },
+    { Value = "Bow",    Icon = "rbxassetid://222222", Description = "Long-range weapon" },
+    { Value = "Magic",  Description = "Consumes mana" },
+
+    { Section = true, Text = "Special Weapons" },
+
+    { Value = "Spear",  Icon = "rbxassetid://333333" },
+    "Axe",
+}
+```
+
+> When `Description` is present, the item's height increases from 36px to 50px automatically.
+
+#### Full Example — Header Icon + Per-Option Icons + Sections + Multi-Select
+
+```lua
+local WeaponDD = Tab:CreateDropdown({
+    Title    = "Weapon Selection",
+    Icon     = "rbxassetid://XXXXXXX",
     Multiple = true,
-    Default  = { "PvP", "Farm" },
-    Callback = function(selected)
-        print(table.concat(selected, ", "))
-    end,
-})
+    Default  = { "Sword", "Bow" },
+    Options  = {
+        { Section = true, Text = "Melee" },
+        { Value = "Sword", Icon = "rbxassetid://111111", Description = "High DPS" },
+        { Value = "Axe",   Icon = "rbxassetid://222222", Description = "Area damage" },
+        { Value = "Dagger",Icon = "rbxassetid://333333" },
 
--- Options with descriptions
-local Dropdown = Tab:CreateDropdown({
-    Title   = "Class",
-    Options = {
-        { Value = "Warrior", Description = "High HP and defense." },
-        { Value = "Mage",    Description = "Strong area spells."  },
-        { Value = "Rogue",   Description = "Fast and stealthy."   },
+        { Section = true, Text = "Ranged" },
+        { Value = "Bow",      Icon = "rbxassetid://444444", Description = "Long range" },
+        { Value = "Crossbow", Icon = "rbxassetid://555555" },
+
+        { Section = true, Text = "Magic" },
+        { Value = "Staff", Icon = "rbxassetid://666666", Description = "Consumes mana" },
+        "Tome",
     },
     Callback = function(selected)
-        print(selected)
-    end,
-})
-
--- Options with section headers
-local Dropdown = Tab:CreateDropdown({
-    Title   = "Items",
-    Options = {
-        { Section = true, Text = "Weapons" },
-        "Sword",
-        "Axe",
-        { Section = true, Text = "Armor" },
-        "Shield",
-        "Helmet",
-    },
-    Callback = function(selected)
-        print(selected)
-    end,
-})
-
--- Auto-reload options every time the dropdown opens
-local Dropdown = Tab:CreateDropdown({
-    Title      = "Players",
-    Options    = {},
-    AutoReload = function()
-        local list = {}
-        for _, p in ipairs(game:GetService("Players"):GetPlayers()) do
-            table.insert(list, p.Name)
+        for _, weapon in ipairs(selected) do
+            print("Equipped:", weapon)
         end
-        return list
-    end,
-    Callback = function(selected)
-        print(selected)
     end,
 })
 ```
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Dropdown"` | Label text |
-| `Options` | `{string \| table}` | `{}` | List of options |
-| `Multiple` | `boolean` | `false` | Allow multiple selections |
-| `Default` | `string \| {string}` | `nil` | Pre-selected option(s) |
-| `AutoReload` | `function()` | `nil` | Called when the dropdown opens; return a new options table |
-| `SaveId` | `string` | auto-generated | Key for auto-save/load |
-| `Callback` | `function` | — | `function(string)` or `function(table)` when `Multiple = true` |
-
-**Methods:**
+#### Example with AutoReload
 
 ```lua
-Dropdown:Get()                    -- Returns selected (string or table)
-Dropdown:Set("Sword")
-Dropdown:Set({ "PvP", "PvE" })   -- Multi-select
-Dropdown:Reload(newOptionsTable)  -- Rebuild the options list
-Dropdown:SetAutoReload(function() return {...} end)
-Dropdown:Open()
-Dropdown:Close()
-Dropdown:SetTitle("New Label")
-Dropdown:GetFrame()
+local PlayerDD = Tab:CreateDropdown({
+    Title      = "Target Player",
+    Icon       = "rbxassetid://XXXXXXX",
+    AutoReload = function()
+        local opts = {}
+        for _, p in ipairs(game.Players:GetPlayers()) do
+            table.insert(opts, {
+                Value       = p.Name,
+                Icon        = "rbxassetid://YYYYYYY",
+                Description = "Ping: " .. math.floor(p:GetNetworkPing() * 1000) .. "ms",
+            })
+        end
+        return opts
+    end,
+    Callback = function(name)
+        print("Target:", name)
+    end,
+})
+```
+
+```lua
+DD:Set("Sword")
+DD:Set({"Sword", "Bow"})   -- multi-select
+DD:Get()                   --> string or table
+DD:Reload(newOptions)      -- replaces the option list and rebuilds the menu
+DD:SetAutoReload(fn)
+DD:Open()
+DD:Close()
+DD:GetFrame()
+DD:SetTitle("New Title")
 ```
 
 ---
 
-### CreateValueDropdown
+### 4.8 CreateValueDropdown
 
-A dropdown where each option has an associated editable numeric value.
+A dropdown where each option has its own editable numeric field. Good for things like per-ability damage or per-class speed values.
 
 ```lua
-local ValDrop = Tab:CreateValueDropdown({
-    Title   = "Damage Settings",
-    Min     = 0,
-    Max     = 1000,
-    Options = {
-        { Value = "Sword", Default = 150 },
-        { Value = "Bow",   Default = 80  },
-        { Value = "Staff", Default = 220 },
+local VDD = Tab:CreateValueDropdown(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Dropdown"` | Label |
+| `Options` | table | `{}` | Options as strings or `{Value, Default}` tables |
+| `Min` | number | `0` | Minimum for all numeric fields |
+| `Max` | number | `9999` | Maximum for all numeric fields |
+| `Callback` | function | `nil` | `function(selectedKey: string, value: number)` |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+```lua
+Options = {
+    "Sword",                              -- defaults to Min
+    { Value = "Bow",   Default = 150 },
+    { Value = "Magic", Default = 300 },
+}
+```
+
+```lua
+VDD:GetValues()              --> { key = number, ... }
+VDD:GetValue("Sword")        --> number
+VDD:GetSelected()            --> string
+VDD:SetSelected("Bow")
+VDD:SetValue("Sword", 120)
+VDD:Open()
+VDD:Close()
+VDD:GetFrame()
+VDD:SetTitle("Label")
+```
+
+```lua
+local SpeedDD = Tab:CreateValueDropdown({
+    Title    = "Speed by Class",
+    Min      = 0,
+    Max      = 500,
+    Options  = {
+        { Value = "Warrior", Default = 100 },
+        { Value = "Archer",  Default = 150 },
+        { Value = "Mage",    Default = 80  },
     },
-    Callback = function(selectedKey, numericValue)
-        print("Key:", selectedKey, "| Value:", numericValue)
+    Callback = function(class, speed)
+        print(class, "->", speed)
     end,
 })
 ```
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Dropdown"` | Label text |
-| `Options` | `{table}` | `{}` | Each entry: `{ Value = "Name", Default = number }` |
-| `Min` | `number` | `0` | Minimum numeric value |
-| `Max` | `number` | `9999` | Maximum numeric value |
-| `Callback` | `function(string, number)` | — | Called when the selection or a value changes |
+---
 
-**Methods:**
+### 4.9 CreateTextBox
+
+A text input field with a character counter and a focus animation.
 
 ```lua
-ValDrop:GetSelected()           -- Returns selected key (string)
-ValDrop:GetValues()             -- Returns table { key = number, ... }
-ValDrop:GetValue("Sword")       -- Returns the number for a specific key
-ValDrop:SetSelected("Bow")
-ValDrop:SetValue("Sword", 300)
-ValDrop:Open()
-ValDrop:Close()
-ValDrop:SetTitle("New Label")
-ValDrop:GetFrame()
+local TB = Tab:CreateTextBox(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Text"` | Label |
+| `Placeholder` | string | `"Type here..."` | Placeholder text |
+| `MaxLength` | number | `100` | Character limit |
+| `Default` | string | `""` | Initial value |
+| `Callback` | function | `nil` | `function(text: string)` called on focus lost |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+The character counter turns yellow above 60% capacity and red above 85%.
+
+```lua
+TB:Get()                 --> string
+TB:Set("new text")
+TB:GetFrame()
+TB:SetTitle("Label")
+TB:SetPlaceholder("Enter...")
 ```
 
 ---
 
-### CreateDiscordInvite
+### 4.10 CreateKeyBind
 
-A styled Discord server card with member count stats and a copy-link button.
+A hotkey picker. The user clicks the field and presses a key to assign it. Pressing ESC cancels.
 
 ```lua
-local Card = Tab:CreateDiscordInvite({
-    Title       = "Our Community",
-    Description = "Join us for updates and support!",
-    Icon        = "rbxassetid://0",
-    Banner      = "rbxassetid://0",
-    Link        = "https://discord.gg/GMAFx8NxdK",
-    Button      = "Join Server",
+local KB = Tab:CreateKeyBind(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"KeyBind"` | Label |
+| `Default` | KeyCode \| table | `Enum.KeyCode.LeftAlt` | Default key (can be `{Enum.KeyCode.X}`) |
+| `Callback` | function | `nil` | `function(keys: table)` e.g. `{Enum.KeyCode.F}` |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+```lua
+KB:Get()               --> { Enum.KeyCode.X }
+KB:Set(Enum.KeyCode.G)
+KB:GetFrame()
+KB:SetTitle("Label")
+```
+
+```lua
+local HotKey = Tab:CreateKeyBind({
+    Title    = "Toggle ESP",
+    Default  = Enum.KeyCode.H,
+    Callback = function(keys)
+        print("Key:", keys[1])
+    end,
 })
 ```
 
-| Option | Type | Description |
-|---|---|---|
-| `Title` | `string` | Server name |
-| `Description` | `string` | Short description below the name |
-| `Icon` | `string` | Server icon asset ID |
-| `Banner` | `string` | Banner image asset ID (displayed at the top of the card) |
-| `Link` | `string` | Full Discord invite URL |
-| `Button` | `string` | Join button label text |
+---
 
-> Automatically fetches **online** and **total member** counts from the Discord API when `request` / `syn.request` is available.
+### 4.11 CreateColorPicker
 
-**Methods:**
+A full HSV color picker with a hue bar, live preview, and readouts in Hex, RGB, HSL, and OKLCH.
 
 ```lua
-Card:SetTitle("New Name")
-Card:GetFrame()
+local CP = Tab:CreateColorPicker(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Color"` | Label |
+| `Default` | Color3 | `Color3.fromRGB(255, 65, 65)` | Initial color |
+| `Callback` | function | `nil` | `function(color: Color3)` called when the user clicks Apply |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+```lua
+CP:Get()                        --> Color3 (last applied value)
+CP:Set(Color3.fromRGB(0,255,0))
+CP:GetFrame()
+CP:SetTitle("Label")
+```
+
+Closing the panel without clicking **Apply** does not change the stored value.
+
+---
+
+### 4.12 CreateDiscordInvite
+
+A Discord server invite card with a live online member count (fetched via the Discord API), a copy-link button, and optional banner/icon images.
+
+```lua
+local DC = Tab:CreateDiscordInvite(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Discord Server"` | Server name |
+| `Description` | string | `""` | Short description |
+| `Icon` | string | `""` | Asset ID for the server icon |
+| `Banner` | string | `""` | Asset ID for the banner image |
+| `Link` | string | `""` | Full invite link or invite code (e.g. `"discord.gg/abc"`) |
+| `Button` | string | `"Join Server"` | Action button text |
+| `Side` | number | `1` | Column in a double-layout tab |
+
+Clicking the button copies the link to the clipboard. Online/total member counts refresh automatically every 5 seconds.
+
+```lua
+DC:GetFrame()
+DC:SetTitle("Label")
 ```
 
 ---
 
-## 📌 Sidebar Elements
+### 4.13 CreateSeparatorLine
 
-Placed in the tab sidebar, not inside a tab page.
-
-### CreateSeparator
-
-A text label or blank spacer between tab groups in the sidebar.
+A simple horizontal divider line inside a tab's content.
 
 ```lua
--- With label
-Window:CreateSeparator({ Text = "Combat" })
-
--- Blank spacer
-Window:CreateSeparator({})
+Tab:CreateSeparatorLine({ Side = 1 })
 ```
 
-| Option | Type | Description |
-|---|---|---|
-| `Text` | `string` | Label text. Leave empty for a blank spacer |
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Side` | number | `1` | Column in a double-layout tab |
 
 ---
 
-### CreateSidebarLine
+## 5. Sidebar Components
 
-A thin horizontal divider line in the sidebar.
+These components are created directly on the `Window`, not inside a tab.
+
+### 5.1 CreateSeparator
+
+A category label in the sidebar, placed between tab entries.
+
+```lua
+Window:CreateSeparator(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Text` | string | `""` | Label text (blank produces empty whitespace) |
+
+```lua
+Window:CreateSeparator({ Text = "COMBAT" })
+local TabA = Window:CreateTab({ Title = "ESP" })
+Window:CreateSeparator({ Text = "MISC" })
+local TabB = Window:CreateTab({ Title = "Teleport" })
+```
+
+---
+
+### 5.2 CreateSidebarLine
+
+A thin horizontal line in the sidebar for visual separation between tab groups.
 
 ```lua
 Window:CreateSidebarLine()
 ```
 
-No configuration options.
+No parameters.
 
 ---
 
-## 🔑 CreateKeySystem
+## 6. Notifications
 
-A standalone authentication/key screen displayed before the main window.
+Animated notifications that stack in the bottom-right corner of the screen.
 
 ```lua
-local KeySystem = Library:CreateKeySystem({
-    Title  = "Key System",
-    Icon   = "rbxassetid://0",
-    Theme  = "Blue",
-    Size   = Vector2.new(420, 265),
-    Acrylic = {
-        Enabled = true,
-        Opacity = 0.55,
+Window:Notify(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Notification"` | Notification title |
+| `Description` / `Text` | string | `""` | Body text (optional) |
+| `Icon` | string | `"rbxassetid://..."` | Icon shown to the left |
+| `Duration` | number | `4` | Display time in seconds (minimum 0.5) |
+| `RichText` | boolean | `false` | Enables RichText in the description |
+| `TitleColoredWords` | table | `nil` | Colored words in the title |
+| `ColoredWords` | table | `nil` | Colored words in the description |
+| `TitleWords` | table | `nil` | Advanced rich-text format for the title |
+| `TextWords` | table | `nil` | Advanced rich-text format for the description |
+
+```lua
+-- Simple
+Window:Notify({
+    Title       = "Success!",
+    Description = "Operation complete.",
+    Duration    = 3,
+})
+
+-- With RichText
+Window:Notify({
+    Title       = "Warning",
+    Description = 'Press <font color="#FF5555">ESC</font> to cancel.',
+    RichText    = true,
+    Duration    = 5,
+})
+
+-- With ColoredWords
+Window:Notify({
+    Title        = "Info",
+    Description  = "Welcome to ProxyLib!",
+    ColoredWords = {
+        { Text = "ProxyLib", Colors = { Color3.fromRGB(100, 200, 255) } },
     },
 })
 ```
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Key System"` | Window title |
-| `Icon` | `string` | `""` | Icon asset ID |
-| `Theme` | `string \| Color3` | `"Blue"` | Accent theme |
-| `Size` | `Vector2` | `Vector2.new(420, 265)` | Window size |
-| `Acrylic.Enabled` | `boolean` | `false` | Transparent background |
-| `Acrylic.Opacity` | `number` | `0.55` | Opacity level |
-
-**Root methods:**
-
-```lua
-KeySystem:GetText()         -- Returns the current value of the input box
-KeySystem:SetText("key")    -- Set the input box text
-KeySystem:GetTextBox()      -- Returns the TextBox instance directly
-KeySystem:Notify({...})     -- Show a notification (same options as Window:Notify)
-KeySystem:Destroy()         -- Close and destroy the key system UI
-```
+Notifications sent before the window finishes loading are queued and shown in order once it's ready.
 
 ---
 
-### KeySystem CreateButton
+## 7. CreateKeySystem
+
+An authentication screen shown before the main UI. The user enters a key, and your code decides whether to accept or reject it.
 
 ```lua
-local Btn = KeySystem:CreateButton({
+local KS = Lib:CreateKeySystem(config)
+```
+
+### 7.1 KeySystem Options
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Title` | string | `"Key System"` | Title shown in the header |
+| `Icon` | string | `""` | Asset ID for the header icon |
+| `Theme` | string | `"Blue"` | Color theme |
+| `Size` | Vector2 | `Vector2.new(420, 265)` | Card size |
+| `BackgroundColor` | Color3 | `nil` | Overrides the background color |
+| `Acrylic` | table | `{}` | `{ Enabled, Opacity }` acrylic effect config |
+
+```lua
+local KS = Lib:CreateKeySystem({
+    Title = "Key Verification",
+    Theme = "Green",
+    Size  = Vector2.new(440, 280),
+})
+```
+
+### 7.2 KeySystem Methods
+
+```lua
+KS:GetTextBox()        -- returns the input TextBox
+KS:GetText()           -- returns the current input string
+KS:SetText("key")      -- sets the input text
+KS:Notify(config)      -- same notification format as Window:Notify
+KS:Destroy()           -- closes the Key System with an animation
+```
+
+### 7.3 CreateButton (KeySystem)
+
+Action buttons in the Key System, laid out in a 2-column grid.
+
+```lua
+local Btn = KS:CreateButton(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Description` | string | `"Button"` | Button text |
+| `Icon` | string | `""` | Optional icon |
+| `Callback` | function | `nil` | `function()` |
+
+```lua
+Btn:GetFrame()
+Btn:SetDescription("New Text")
+```
+
+```lua
+KS:CreateButton({
     Description = "Verify Key",
-    Icon        = "rbxassetid://0",
+    Icon        = "rbxassetid://...",
     Callback    = function()
-        local key = KeySystem:GetText()
-        if key == "my-secret-key" then
-            KeySystem:Destroy()
-            -- open your main window here
+        if KS:GetText() == "MY-KEY-123" then
+            KS:Destroy()
+            -- load the main hub
         else
-            KeySystem:Notify({
-                Title    = "Invalid Key",
-                Text     = "The key you entered is incorrect.",
-                Duration = 3,
-            })
+            KS:Notify({ Title = "Invalid key!", Duration = 3 })
         end
     end,
 })
 ```
 
-| Option | Type | Description |
-|---|---|---|
-| `Description` | `string` | Button label |
-| `Icon` | `string` | Optional icon asset ID |
-| `Callback` | `function()` | Called on click |
+### 7.4 CreateSocialButton
 
-**Methods:**
+Social link buttons shown below the main action buttons. Clicking copies the link.
 
 ```lua
-Btn:SetDescription("New Label")
-Btn:GetFrame()
+KS:CreateSocialButton(config)
+```
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Type` | string | `"Discord"` | `"Discord"`, `"Youtube"`, or `"Website"` |
+| `Link` | string | `""` | URL to copy on click |
+| `Order` | number | `0` | Display order (lower = first) |
+
+```lua
+KS:CreateSocialButton({ Type = "Discord", Link = "https://discord.gg/abc", Order = 1 })
+KS:CreateSocialButton({ Type = "Youtube", Link = "https://youtube.com/...", Order = 2 })
+KS:CreateSocialButton({ Type = "Website", Link = "https://mysite.com",     Order = 3 })
 ```
 
 ---
 
-### KeySystem CreateSocialButton
+## 8. Themes
 
-Small pill-shaped link buttons shown below the action buttons.
+Built-in themes available for the `Theme` property:
 
-```lua
-KeySystem:CreateSocialButton({
-    Type  = "Discord",
-    Link  = "https://discord.gg/GMAFx8NxdK",
-    Order = 1,
-})
-
-KeySystem:CreateSocialButton({
-    Type  = "Youtube",
-    Link  = "https://youtube.com/@example",
-    Order = 2,
-})
-
-KeySystem:CreateSocialButton({
-    Type  = "Website",
-    Link  = "https://example.com",
-    Order = 3,
-})
-```
-
-| Option | Type | Description |
-|---|---|---|
-| `Type` | `string` | Icon style: `"Discord"`, `"Youtube"`, or `"Website"` |
-| `Link` | `string` | URL that is copied to clipboard on click |
-| `Order` | `number` | Layout order (lower = further left) |
-
-> Clicking copies the link to clipboard and briefly shows **"Copied!"** feedback.
-
----
-
-### KeySystem Notify
-
-Same options as the main window `Notify`.
-
-```lua
-KeySystem:Notify({
-    Title    = "Welcome",
-    Text     = "Please enter your key.",
-    Duration = 4,
-})
-```
-
----
-
-## 🛠 Window Methods
-
-```lua
-Window:Notify({...})          -- Show a notification
-Window:GetContentFrame()      -- Returns the content Frame
-Window:GetMainFrame()         -- Returns the main window Frame
-Window:GetConfigPanel()       -- Returns the config panel ScrollingFrame
-Window:Destroy()              -- Destroy the entire window and clean up connections
-```
-
----
-
-## 🎨 Themes
-
-Pass any of the following strings to the `Theme` option, or pass a `Color3` directly for a fully custom accent.
-
-| Name | Color |
+| Name | Description |
 |---|---|
-| `"Blue"` | `RGB(35, 85, 170)` |
-| `"Red"` | `RGB(170, 40, 40)` |
-| `"Green"` | `RGB(35, 140, 70)` |
-| `"Purple"` | `RGB(110, 60, 180)` |
-| `"Pink"` | `RGB(200, 70, 130)` |
-| `"Yellow"` | `RGB(175, 148, 30)` |
-| `"White"` | `RGB(200, 200, 200)` |
-| `"Grey"` | `RGB(108, 108, 108)` |
+| `"Blue"` | Blue (default) |
+| `"Red"` | Red |
+| `"Green"` | Green |
+| `"Purple"` | Purple |
+| `"Pink"` | Pink |
+| `"Yellow"` | Yellow |
+| `"White"` | White |
+| `"Grey"` | Grey |
+| `"Custom"` | User-defined color (set through the ConfigPanel) |
 
-**Custom Color3:**
+You can also pass a `Color3` directly:
 
 ```lua
-Theme = Color3.fromRGB(255, 100, 50)
+Theme = Color3.fromRGB(0, 180, 120),
 ```
 
-The config panel also exposes a **Custom** color picker at runtime so users can pick any color visually.
+When a `Color3` is provided, the library automatically generates the `AccentBright`, `AccentDark`, `AccentDeep`, and `AccentGlow` variants from it.
 
 ---
 
-## 🌐 Languages
+## 9. Languages
 
-| Value | Language |
+Languages with built-in translations for all internal UI text:
+
+| Code | Language |
 |---|---|
 | `"English"` | English (default) |
 | `"Portuguese"` | Portuguese |
 | `"Vietnamese"` | Vietnamese |
 
-Any other language is fetched automatically at runtime via Google Translate / MyMemory when HTTP is available.
+For other languages, the library attempts automatic translation via the Google Translate / MyMemory API, which requires HttpGet to be enabled in the executor.
+
+```lua
+Language = "Portuguese",
+```
+
+Component text created by the developer (tab titles, toggle labels, etc.) is also translated automatically when the selected language isn't English, using a local cache to avoid redundant requests.
 
 ---
 
-## ✨ RichText & Colored Words
+## 10. AutoSave / AutoLoad
 
-The `ColoredWords`, `TitleColoredWords`, `DescriptionWords`, `TitleWords`, and `TextWords` systems let you color and gradient individual words anywhere they are supported (Paragraphs, Notifications).
+When `AutoSave = true` (the default), the library saves the following to `ProxyLib_Cfg.json`:
 
-### Single color
+- Selected theme
+- Acrylic state and opacity
+- FPS and Ping overlay states
+- Profile card visibility
+- Background image state
+- Values of all components that have a `SaveId`
+
+When `AutoLoad = true` (the default), these values are restored on startup.
+
+To assign a stable save key to a component, set its `SaveId`:
 
 ```lua
-ColoredWords = {
-    { Text = "active", Colors = { Color3.fromRGB(80, 220, 80)  } },
-    { Text = "error",  Colors = { Color3.fromRGB(220, 80, 80)  } },
-}
+Tab:CreateToggle({
+    Title    = "ESP",
+    SaveId   = "esp_toggle",
+    Callback = function(v) end,
+})
 ```
 
-### Gradient (two or more colors)
+If `SaveId` isn't set, the library generates one automatically from the tab name and component title.
+
+---
+
+## 11. ColoredWords / RichText
+
+A system for coloring specific words inside component text, supporting both solid colors and gradients.
 
 ```lua
 ColoredWords = {
     {
-        Text     = "Rainbow",
+        Text   = "ProxyLib",
+        Colors = { Color3.fromRGB(100, 200, 255) },  -- solid color
+    },
+    {
+        Text     = "Premium",
         Colors   = {
-            Color3.fromRGB(255, 80,  80),
-            Color3.fromRGB(255, 200, 80),
-            Color3.fromRGB(80,  255, 80),
+            Color3.fromRGB(255, 200, 0),
+            Color3.fromRGB(255, 100, 0),
         },
         Gradient = true,
     },
 }
 ```
 
-### Word builder
+```lua
+Tab:CreateParagraph({
+    Title       = "Welcome to ProxyLib Premium",
+    Description = "Enjoy all features with your Premium license.",
+    ColoredWords = {
+        { Text = "ProxyLib", Colors = { Color3.fromRGB(80, 180, 255) } },
+        { Text = "Premium",  Colors = { Color3.fromRGB(255,200,0), Color3.fromRGB(255,100,0) }, Gradient = true },
+    },
+})
+```
 
-Mix plain strings and colored word tables in a list:
+For more granular control, `DescriptionWords` and `TextWords` accept a mixed array of plain strings and colored word tables:
 
 ```lua
 DescriptionWords = {
-    "The server has ",
-    { Text = "42", Colors = { Color3.fromRGB(100, 200, 255) } },
-    " players online.",
+    "Normal text ",
+    { Text = "colored", Colors = { Color3.fromRGB(100, 255, 100) } },
+    " more normal text.",
 }
 ```
 
 ---
 
-## 📦 Full Example
+## 12. Double Tab Layout
+
+Setting `Double = true` when creating a tab splits its content area into two independent columns with a divider between them.
 
 ```lua
-local ProxyLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProxyHubDev/ProxyLib/refs/heads/main/Documents/ProxyLibrary"))()
-local Library = ProxyLib.new()
+local Tab = Window:CreateTab({ Title = "Settings", Double = true })
+```
 
-local Window = Library:CreateWindow({
-    Title = "My Script",
-    Subtitle = "example",
+Every component inside a double tab accepts `Side = 1` (left column) or `Side = 2` (right column):
+
+```lua
+Tab:CreateSection({ Text = "Visual",   Side = 1 })
+Tab:CreateSection({ Text = "Gameplay", Side = 2 })
+
+Tab:CreateToggle({ Title = "ESP",    Side = 1, Callback = function(v) end })
+Tab:CreateToggle({ Title = "Aimbot", Side = 2, Callback = function(v) end })
+
+Tab:CreateSlider({ Title = "Speed",    Min = 0, Max = 100, Side = 1, Callback = function(v) end })
+Tab:CreateDropdown({ Title = "Mode",   Options = {"A","B"}, Side = 2, Callback = function(v) end })
+```
+
+Each column scrolls independently — the mouse wheel only scrolls whichever column the cursor is hovering over.
+
+---
+
+## 13. Full Examples
+
+### Hub with Key System
+
+```lua
+local ProxyLib = loadstring(game:HttpGet("YOUR_LIB_URL"))()
+local Lib = ProxyLib.new()
+
+local KS = Lib:CreateKeySystem({
+    Title = "Authentication",
     Theme = "Blue",
-    Size = Vector2.new(520, 380)
 })
 
-Window:CreateSeparator({ Text = "Combat" })
+KS:CreateSocialButton({ Type = "Discord", Link = "https://discord.gg/example", Order = 1 })
 
-local Tab = Window:CreateTab({
-    Title = "Main"
-})
+KS:CreateButton({
+    Description = "Verify",
+    Callback    = function()
+        if KS:GetText() == "VALID-KEY" then
+            KS:Destroy()
 
-Tab:CreateSection({
-    Text = "Combat Settings",
-})
+            local Window = Lib:CreateWindow({
+                Title    = "My Hub",
+                Subtitle = "v2.0",
+                Theme    = "Blue",
+                Size     = Vector2.new(560, 420),
+                ConfigPanel = {
+                    Enabled = true,
+                    Theme   = true,
+                    Fps     = true,
+                    Ping    = true,
+                    Profile = true,
+                },
+                TitleConfig = {
+                    Gradient = true,
+                    Words    = {
+                        "My",
+                        { Text = "Hub", Colors = { Color3.fromRGB(100,200,255), Color3.fromRGB(50,100,255) } },
+                    },
+                },
+            })
 
-Tab:CreateSeparatorLine()
+            Window:CreateSeparator({ Text = "MAIN" })
+            local TabMain = Window:CreateTab({ Title = "Home", Icon = "rbxassetid://..." })
 
-local Dropdown = Tab:CreateDropdown({
-    Title = "Weapon",
-    Options = { "Sword", "Bow", "Staff" },
-    Default = "Sword",
-    Callback = function(selected)
-        print("Selected weapon:", selected)
-        Window:Notify({
-            Title = "Weapon",
-            Text = "You chose: " .. selected,
-            Duration = 2
-        })
-    end
-})
+            TabMain:CreateSection({ Text = "Welcome" })
+            TabMain:CreateParagraph({
+                Title       = "My Hub Premium",
+                Description = "Use features responsibly.",
+            })
 
-local Para = Tab:CreateParagraph({
-    Title       = "About",
-    Description = "This is some info text.",
-})
+            TabMain:CreateToggle({
+                Title    = "ESP",
+                Default  = false,
+                Callback = function(v) print("ESP:", v) end,
+            })
 
-local Toggle = Tab:CreateToggle({
-    Title    = "Enable Feature",
-    Default  = false,
-    Callback = function(state)
-        print("Toggle:", state)
+            TabMain:CreateSlider({
+                Title    = "Walk Speed",
+                Min      = 0,
+                Max      = 50,
+                Default  = 16,
+                Callback = function(v)
+                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
+                end,
+            })
+
+            Window:Notify({
+                Title       = "Welcome!",
+                Description = "Hub loaded successfully.",
+                Duration    = 4,
+            })
+        else
+            KS:Notify({ Title = "Invalid key!", Duration = 3 })
+        end
     end,
 })
+```
 
-local Toggle = Tab:CreateToggle({
-    Title       = "Enable Feature",
-    Description = "Turns the feature on or off.",
-    Icon        = "rbxassetid://82431110954723",
-    Default     = false,
-    SaveId      = "my_toggle",
-    Callback    = function(state)
-        print("Toggle:", state)
-    end,
-})
+### Double Tab
 
-local Check = Tab:CreateCheckBox({
-    Title    = "Accept Terms",
-    Default  = false,
-    Callback = function(state)
-        print("Checked:", state)
-    end,
-})
+```lua
+local Tab = Window:CreateTab({ Title = "Config", Double = true })
 
-local Check = Tab:CreateCheckBox({
-    Title        = "Enable PvP",
-    Description  = "Activates PvP mode.",
-    Default      = false,
-    Confirmation = true,
-    SaveId       = "my_checkbox",
-    Callback     = function(state)
-        print("CheckBox:", state)
-    end,
-})
+Tab:CreateSection({ Text = "Visual",    Side = 1 })
+Tab:CreateSection({ Text = "Movement",  Side = 2 })
 
-local Slider = Tab:CreateSlider({
-    Title    = "Speed",
+Tab:CreateToggle({ Title = "Player ESP", Side = 1, Callback = function(v) end })
+Tab:CreateToggle({ Title = "Item ESP",   Side = 1, Callback = function(v) end })
+Tab:CreateToggle({ Title = "Speed Hack", Side = 2, Callback = function(v) end })
+
+Tab:CreateSlider({ Title = "Speed", Min = 0, Max = 100, Default = 16, Side = 2,
+    Callback = function(v) end })
+
+Tab:CreateDropdown({ Title = "ESP Mode", Options = {"Box","Skeleton","Filled"},
+    Side = 1, Callback = function(v) end })
+```
+
+### ValueDropdown
+
+```lua
+local Tab = Window:CreateTab({ Title = "Abilities" })
+
+local VDD = Tab:CreateValueDropdown({
+    Title    = "Damage per Ability",
     Min      = 0,
-    Max      = 100,
-    Default  = 16,
-    Callback = function(value)
-        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = value
+    Max      = 9999,
+    Options  = {
+        { Value = "Fireball",  Default = 150 },
+        { Value = "Lightning", Default = 300 },
+        { Value = "Heal",      Default = 0   },
+    },
+    Callback = function(ability, damage)
+        print(ability, "will deal", damage, "damage")
     end,
 })
 
-local Button = Tab:CreateButton({
-    Title    = "Teleport",
-    Callback = function()
-        print("Clicked!")
+print(VDD:GetValues())         -- { ["Fireball"]=150, ["Lightning"]=300, ["Heal"]=0 }
+print(VDD:GetSelected())       -- "Fireball"
+VDD:SetValue("Lightning", 500)
+```
+
+### ColorPicker + KeyBind
+
+```lua
+local Tab = Window:CreateTab({ Title = "Visual" })
+
+local CP = Tab:CreateColorPicker({
+    Title    = "ESP Color",
+    Default  = Color3.fromRGB(255, 0, 0),
+    Callback = function(color)
+        -- apply color to ESP
     end,
 })
 
-local Button = Tab:CreateButton({
-    Title        = "Delete Data",
-    Description  = "This action cannot be undone.",
-    Icon         = "rbxassetid://88732835297181",
-    Confirmation = true,
-    Callback     = function()
-        print("Confirmed and executed.")
+local KB = Tab:CreateKeyBind({
+    Title    = "Toggle ESP",
+    Default  = Enum.KeyCode.Z,
+    Callback = function(keys)
+        print("Key set to:", keys[1])
     end,
-})
-
-local TextBox = Tab:CreateTextBox({
-    Title    = "Username",
-    Callback = function(text)
-        print("Submitted:", text)
-    end,
-})
-
-local TextBox = Tab:CreateTextBox({
-    Title       = "Username",
-    Placeholder = "Enter your username...",
-    Default     = "",
-    MaxLength   = 50,
-    Callback    = function(text)
-        print("Text:", text)
-    end,
-})
-
-local Card = Tab:CreateDiscordInvite({
-    Title       = "Our Community",
-    Description = "Join us for updates and support!",
-    Icon        = "rbxassetid://0",
-    Banner      = "rbxassetid://0",
-    Link        = "https://discord.gg/GMAFx8NxdK",
-    Button      = "Join Server",
-})
-
-Window:Notify({
-    Title = "Ready",
-    Text = "UI Complete",
-    Duration = 3
 })
 ```
